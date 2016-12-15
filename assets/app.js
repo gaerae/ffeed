@@ -1,5 +1,5 @@
 // your a facebook app id
-var facebookAppId = '{app-id}'
+var facebookAppId = '1770780396504220'
 
 // app
 new Vue({
