@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A simple page that returns the feed of a specific facebook page and group." />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <!-- facebook -->
+    <meta property="og:title" content="FFeed - Facebook Feed" />
+    <meta property="og:description" content="A simple page that returns the feed of a specific facebook page and group." />
+    <meta property="og:image" content="assets/cover.png" />
+    <meta property="og:type" content="website" />
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="FFeed - Facebook Feed">
+    <meta name="twitter:description" content="A simple page that returns the feed of a specific facebook page and group." />
+    <meta name="twitter:image" content="assets/cover.png" />
+    <title>FFeed - Facebook Feed</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="navbar">
+        <a href="./">FFeed</a><span class="hidden note"> Facebook Feed </span>
+        <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true" data-onlogin="window.location.reload()"></div>
+        <!-- <a style="float:right" href="#">About</a> -->
+      </div>
+      <input type="text" class="search-box" placeholder="facebook page and group search" v-model="searchQuery">
+
+      <template v-if="searchResult === null && feedInfo === null">
+        <!-- main -->
+        <h1>Hello :)</h1>
+        <div v-html="mainMessage">A simple page that returns the feed of a specific facebook page and group.</div>
+      </template>
+
+      <template v-if="searchResult !== null">
+        <!-- search -->
+        <h1>Search</h1>
+        <ul class="list-box">
+            <li class="list-item" v-for="item in searchResult">
+              <span class="type">{{ (item.privacy) ? 'GROUP '+item.privacy:'PAGE' }}</span>
+              <span class="name">{{ item.id }}</span><br/>
+              <span class="message"><a :href="'?id='+item.id">{{ item.name }} </a></span>
+            </li>
+        </ul>
+      </template>
+
+      <template v-if="feedInfo !== null">
+        <!-- page -->
+        <h1>
+          <a :href="feedInfo.link" target="_blank">{{ feedInfo.name }}</a>
+          <span class="note"> {{  feedInfo.type }}</span>
+        </h1>
+        <ul class="list-box" v-if="feedList">
+          <li class="list-item" v-for="item in feedList.data">
+            <span class="type">{{ item.type }}</span>
+            <span class="name"><a :href="item.link" target="_blank" class="commit">{{ item.name }}</a></span><br/>
+            <div class="message" v-html="parseMessage(item.message)"></div>
+            <span class="permalink"><a :href="item.permalink_url" target="_blank">Permalink</a></span>
+            <span class="count">{{ (item.likes) ? item.likes.data.length : 0 }} like</span>
+            <span class="count">{{ (item.comments) ? item.comments.data.length : 0 }} comment</span>
+            <span class="count">{{ (item.shares) ? item.shares.count : 0 }} share</span>
+          </li>
+        </ul>
+
+        <ul class="list-box" v-else>
+            <li class="list-item">No data.</li>
+        </ul>
+      </template>
+
+      <template v-if="loadingMessage === true">
+        <!-- loading message -->
+        <h3>loading....</h3>
+      </template>
+    </div>
+
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script type="text/javascript" src="assets/vue.min.js"></script>
+    <script type="text/javascript" src="assets/app.js"></script>
+  </body>
+</html>
