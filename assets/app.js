@@ -32,6 +32,7 @@ new Vue({
   watch: {
     searchQuery: function() {
       this.searchResult = null
+      this.feedInfo = null
       this.feedList = null
       self.mainMessage = ''
       this.apiCall('apiSearch')
@@ -137,7 +138,7 @@ new Vue({
             type: response.metadata.type,
             id: response.id,
             name: response.name,
-            link: '//fb.com/'+response.id,
+            link: '//www.facebook.com/'+response.id,
             picture: response.picture.data.url
           }
           if (response && !response.error) {
