@@ -8,7 +8,7 @@ new Vue({
     searchResult: null,
     feedId: null,
     feedLimit: 15,
-    feedFields: ['type', 'icon', 'name', 'picture', 'message', 'permalink', 'caption', 'count'],
+    feedFields: ['type', 'name', 'picture', 'message', 'permalink', 'caption', 'count'],
     feedTotalCount: 0,
     feedInfo: null,
     feedList: null,
