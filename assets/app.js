@@ -1,6 +1,3 @@
-// your a facebook app id
-var facebookAppId = '1770780396504220';
-
 // app
 new Vue({
   el: '#app',
@@ -11,10 +8,12 @@ new Vue({
     searchResult: null,
     feedId: null,
     feedLimit: 15,
+    feedFields: ['type', 'icon', 'name', 'picture', 'message', 'permalink', 'caption', 'count'],
     feedTotalCount: 0,
     feedInfo: null,
     feedList: null,
-    ticking: false
+    ticking: false,
+    skin: 'base'
   },
 
   created: function () {
@@ -43,12 +42,15 @@ new Vue({
     // parse a url
     parseURL: function(url) {
       let tempParsing = [], tempSplit, tempUrls = url.slice(url.indexOf('?') + 1).split('&');
-      for (var i = 0; i < tempUrls.length; i++) {
+      for (let i = 0; i < tempUrls.length; i++) {
           tempSplit = tempUrls[i].split('=');
           tempParsing[tempSplit[0]] = tempSplit[1];
       }
       this.feedId = (tempParsing['id']) ? tempParsing['id'] : null;
       this.feedLimit = (tempParsing['limit']) ? tempParsing['limit'] : this.feedLimit;
+      this.feedFields = (tempParsing['fields']) ? tempParsing['fields'].split(',') : this.feedFields;
+      this.skin = (tempParsing['skin']) ? tempParsing['skin'] : this.skin;
+      document.body.classList.toggle(`skin-${this.skin}`);
     },
 
     // parse a message string
@@ -59,16 +61,24 @@ new Vue({
       return message.replace(urlPattern, function(url){
         return '<a href="'+url+'" target="_blank">'+url+'</a>'
       }).replace(hashPattern, function(hashtag){
-        return '<a href="https://www.facebook.com/hashtag/'+encodeURI(hashtag.replace('#', ''))+'" target="_blank">'+hashtag+'</a>'
+        return `<a href="https://www.facebook.com/hashtag/${encodeURI(hashtag.replace('#', ''))}" target="_blank">${hashtag}</a>`;
       })
     },
 
-    // parse a message string
+    // parse a analytics string
     parseClickAnalytics: function(url) {
       const urlCheck = /(https:\/\/goo\.gl\/)/i;
       if (urlCheck.test(url)) {
-        return '<a href="https://goo.gl/#analytics/'+encodeURI(url.replace('https://', ''))+'/all_time" target="_blank">Click Analytics</a> / ';
+        return `<a href="https://goo.gl/#analytics/${encodeURI(url.replace('https://', ''))}/all_time" target="_blank">Click Analytics</a> / `;
       }
+    },
+
+    // date format
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+    dateTime: function(dateString) {
+      const tempDate = new Date(dateString);
+      const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+      return tempDate.toLocaleDateString('nu', options);
     },
 
     // infinite list
@@ -110,8 +120,9 @@ new Vue({
         return false
       }
       FB.api('/', 'post',
-        {batch: [{method:'get', relative_url:'/search?include_headers=false&type=page&q='+encodeURI(self.searchQuery)},
-                 {method:'get', relative_url:'/search?include_headers=false&type=group&q='+encodeURI(self.searchQuery)}
+        {batch: [
+          {method:'get', relative_url:`/search?include_headers=false&type=page&q=${encodeURI(self.searchQuery)}`},
+          {method:'get', relative_url:`/search?include_headers=false&type=group&q=${encodeURI(self.searchQuery)}`}
         ]},
         function (response) {
           if (response && !response.error) {
@@ -139,21 +150,25 @@ new Vue({
         return false;
       }
       FB.api(
-        '/'+self.feedId,
-        {summary: true, metadata: 1, fields :'metadata.fields(type),name,id,picture{url},feed.limit('+self.feedLimit+'){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name},posts.limit('+self.feedLimit+'){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name}'},
+        self.feedId,
+        {
+          summary: true,
+          metadata: 1,
+          fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption}`
+        },
         function (response) {
           self.feedInfo = {
             type: response.metadata.type,
             id: response.id,
             name: response.name,
-            link: '//www.facebook.com/'+response.id,
+            link: `https://www.facebook.com/${response.id}`,
             picture: response.picture.data.url
           };
           if (response && !response.error) {
-            if ((typeof response.posts === "object") && (response.posts !== null)) {
+            if ((typeof response.posts === 'object') && (response.posts !== null)) {
               // page
               self.feedList = response.posts;
-            } else if ((typeof response.feed === "object") && (response.feed !== null)) {
+            } else if ((typeof response.feed === 'object') && (response.feed !== null)) {
               // group
               self.feedList = response.feed;
             } else {
