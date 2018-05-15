@@ -7,7 +7,7 @@ new Vue({
     searchQuery: null,
     searchResult: null,
     feedId: null,
-    feedLimit: 15,
+    feedLimit: 50,
     feedFields: ['type', 'name', 'picture', 'message', 'permalink', 'caption', 'count'],
     feedTotalCount: 0,
     feedInfo: null,
@@ -22,7 +22,7 @@ new Vue({
       console.error('assets/app.js > line 2: facebookAppId');
       return false
     }
-    FB.init({appId: facebookAppId, version: 'v2.12', status: true, cookie: true, xfbml: true});
+    FB.init({appId: facebookAppId, version: 'v3.0', status: true, cookie: true, xfbml: true});
     this.parseURL(window.location.search);
     this.apiCall('apiFeedInit');
     this.onInfiniteList();
@@ -126,6 +126,7 @@ new Vue({
         ]},
         function (response) {
           if (response && !response.error) {
+            console.log(response);
             const tempPage = JSON.parse(response[0].body);
             const tempGroup = JSON.parse(response[1].body);
             const tempResult = [];

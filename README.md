@@ -16,12 +16,12 @@ const facebookAppId = '{app-id}'
 ## URL Options: The Query String Parameters
 
 * `id`: 766343270153764 or gaeraecom
-* `limit`: 15
+* `limit`: 50
 * `fields`: type,icon,name,picture,message,permalink,caption,count
 * `skin`: base or white
 
 ```
-http://gaerae.com/ffeed/?id=gaeraecom&limit=10&fields=type,icon,name,picture,message,permalink,caption,count&skin=white
+https://gaerae.com/ffeed/?id=gaeraecom&limit=50&fields=type,icon,name,picture,message,permalink,caption,count&skin=white
 ```
 
 ## License
