@@ -60,22 +60,23 @@
           <span class="note"> {{ feedInfo.type }}</span>
         </h1>
         <ul class="list-box" v-if="feedList">
-          <li v-if="feedInfo.skin !== 'text'" v-for="item in feedList.data" class="list-item list-item-feed">
-            <span class="type" v-if="feedFields.indexOf('type') != -1">{{ dateTime(item.created_time) }} {{ item.type }}.</span>
-            <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
-            <span class="name" v-if="feedFields.indexOf('name') != -1"><strong><a :href="item.link" target="_blank">{{ item.name }}</a></strong></span><br/>
-            <img class="picture" v-if="feedFields.indexOf('picture') != -1" :src="item.picture">
-            <div class="message" v-if="feedFields.indexOf('message') != -1" v-html="parseMessage(item.message)"></div>
-            <span class="permalink" v-if="feedFields.indexOf('permalink') != -1" v-html="parseClickAnalytics(item.link)"></span>
-            <span class="permalink" v-if="feedFields.indexOf('permalink') != -1"><a :href="item.permalink_url" target="_blank">Facebook Permalink</a></span>
-            <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.likes) ? item.likes.summary.total_count : 0 }} like</span>
-            <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.comments) ? item.comments.data.length : 0 }} comment</span>
-            <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.shares) ? item.shares.count : 0 }} share</span>
-            <span class="permalink" v-if="feedFields.indexOf('caption') != -1 && item.caption"> / <a :href="item.link" target="_blank">{{ item.caption }}</a></span>
-          </li>
-
-          <li v-else v-for="item in feedList.data" class="list-item list-item-feed">
-            {{ item.created_time }}, {{ item.type }}, {{ item.message }}, {{ item.link }}, {{ item.name }}, {{ item.description }}, {{ item.picture }}, {{ item.permalink }}, {{ item.caption }}
+          <li v-for="item in feedList.data" class="list-item list-item-feed">
+            <div v-if="feedInfo.skin !== 'text'">
+              <span class="type" v-if="feedFields.indexOf('type') != -1">{{ dateTime(item.created_time) }} {{ item.type }}.</span>
+              <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
+              <span class="name" v-if="feedFields.indexOf('name') != -1"><strong><a :href="item.link" target="_blank">{{ item.name }}</a></strong></span><br/>
+              <img class="picture" v-if="feedFields.indexOf('picture') != -1" :src="item.picture">
+              <div class="message" v-if="feedFields.indexOf('message') != -1" v-html="parseMessage(item.message)"></div>
+              <span class="permalink" v-if="feedFields.indexOf('permalink') != -1" v-html="parseClickAnalytics(item.link)"></span>
+              <span class="permalink" v-if="feedFields.indexOf('permalink') != -1"><a :href="item.permalink_url" target="_blank">Facebook Permalink</a></span>
+              <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.likes) ? item.likes.summary.total_count : 0 }} like</span>
+              <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.comments) ? item.comments.data.length : 0 }} comment</span>
+              <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.shares) ? item.shares.count : 0 }} share</span>
+              <span class="permalink" v-if="feedFields.indexOf('caption') != -1 && item.caption"> / <a :href="item.link" target="_blank">{{ item.caption }}</a></span>
+            </div>
+            <div v-else>
+              {{ item.created_time }}, {{ item.type }}, {{ item.message }}, {{ item.link }}, {{ item.name }}, {{ item.description }}, {{ item.picture }}, {{ item.permalink }}, {{ item.caption }}
+            </div>
           </li>
         </ul>
 
