@@ -155,7 +155,7 @@ new Vue({
         {
           summary: true,
           metadata: 1,
-          fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,description,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption}`
+          fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,description,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,description,icon,caption}`
         },
         function (response) {
           if (response && !response.error) {
