@@ -158,14 +158,6 @@ new Vue({
           fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption}`
         },
         function (response) {
-          self.feedInfo = {
-            skin: self.skin,
-            type: response.metadata.type,
-            id: response.id,
-            name: response.name,
-            link: `https://www.facebook.com/${response.id}`,
-            picture: response.picture.data.url
-          };
           if (response && !response.error) {
             if ((typeof response.posts === 'object') && (response.posts !== null)) {
               // page
@@ -173,11 +165,19 @@ new Vue({
             } else if ((typeof response.feed === 'object') && (response.feed !== null)) {
               // group
               self.feedList = response.feed;
-            } else {
-              return false;
             }
+
+            self.feedInfo = {
+                skin: self.skin,
+                type: response.metadata.type,
+                id: response.id,
+                name: response.name,
+                link: `https://www.facebook.com/${response.id}`,
+                picture: response.picture.data.url
+            };
             // total feed count
-            self.feedTotalCount = self.feedList.data.length + 1
+            self.feedTotalCount = self.feedList.data.length + 1;
+
           } else {
             self.feedList = null;
             self.mainMessage = 'No data.<br/>Error message: '+response.error.message;
