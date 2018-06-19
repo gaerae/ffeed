@@ -159,6 +159,7 @@ new Vue({
         },
         function (response) {
           self.feedInfo = {
+            skin: self.skin,
             type: response.metadata.type,
             id: response.id,
             name: response.name,

@@ -60,7 +60,7 @@
           <span class="note"> {{ feedInfo.type }}</span>
         </h1>
         <ul class="list-box" v-if="feedList">
-          <li class="list-item list-item-feed" v-for="item in feedList.data">
+          <li v-if="feedInfo.skin !== text" v-for="item in feedList.data" class="list-item list-item-feed">
             <span class="type" v-if="feedFields.indexOf('type') != -1">{{ dateTime(item.created_time) }} {{ item.type }}.</span>
             <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
             <span class="name" v-if="feedFields.indexOf('name') != -1"><strong><a :href="item.link" target="_blank">{{ item.name }}</a></strong></span><br/>
@@ -72,6 +72,10 @@
             <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.comments) ? item.comments.data.length : 0 }} comment</span>
             <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.shares) ? item.shares.count : 0 }} share</span>
             <span class="permalink" v-if="feedFields.indexOf('caption') != -1 && item.caption"> / <a :href="item.link" target="_blank">{{ item.caption }}</a></span>
+          </li>
+
+          <li v-else v-for="item in feedList.data" class="list-item list-item-feed">
+            {{item.created_time}}|ㅁ|{{item.type}}|ㅁ|{{item.message}}|ㅁ|{{item.link}}|ㅁ|{{item.name}}|ㅁ|{{item.description}}|ㅁ|{{item.picture}}|ㅁ|{{item.permalink}}|ㅁ|{{item.caption}}
           </li>
         </ul>
 
