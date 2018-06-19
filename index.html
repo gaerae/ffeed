@@ -75,7 +75,7 @@
           </li>
 
           <li v-else v-for="item in feedList.data" class="list-item list-item-feed">
-            {{item.created_time}}|ㅁ|{{item.type}}|ㅁ|{{item.message}}|ㅁ|{{item.link}}|ㅁ|{{item.name}}|ㅁ|{{item.description}}|ㅁ|{{item.picture}}|ㅁ|{{item.permalink}}|ㅁ|{{item.caption}}
+            {{ item.created_time }}, {{ item.type }}, {{ item.message }}, {{ item.link }}, {{ item.name }}, {{ item.description }}, {{ item.picture }}, {{ item.permalink }}, {{ item.caption }}
           </li>
         </ul>
 
