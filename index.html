@@ -75,7 +75,8 @@
               <span class="permalink" v-if="feedFields.indexOf('caption') != -1 && item.caption"> / <a :href="item.link" target="_blank">{{ item.caption }}</a></span>
             </div>
             <div v-else>
-              "{{ item.created_time }}", "{{ item.type }}", "{{ item.message }}", "{{ item.link }}", "{{ item.name }}", "{{ item.description }}", "{{ item.picture }}", "{{ item.permalink_url }}", "{{ item.caption }}"
+              <!-- delimiter: &^& -->
+              {{ item.created_time }}&^&{{ item.type }}&^&{{ item.message }}&^&{{ item.link }}&^&{{ item.name }}&^&{{ item.description }}&^&{{ item.picture }}&^&{{ item.permalink_url }}&^&{{ item.caption }}
             </div>
           </li>
         </ul>
