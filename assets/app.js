@@ -188,7 +188,7 @@ new Vue({
     // infinite list
     apiInfiniteList: function() {
       const self = this;
-      if (self.feedList !== null) {
+      if (self.feedList !== null && self.feedList.paging.next) {
         FB.api(
           self.feedList.paging.next,
           function (response) {
@@ -199,7 +199,7 @@ new Vue({
                 self.feedTotalCount++;
               });
               self.feedList.data = Object.assign({}, self.feedList.data, tempData);
-              self.feedList.paging = Object.assign({}, self.feedList.paging, response.paging);
+              self.feedList.paging = response.paging;
               self.ticking = false;
             } else {
               self.mainMessage = 'No data.<br/>Error message: '+response.error.message;
