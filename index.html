@@ -70,7 +70,7 @@
               <span class="permalink" v-if="feedFields.indexOf('permalink') != -1" v-html="parseClickAnalytics(item.link)"></span>
               <span class="permalink" v-if="feedFields.indexOf('permalink') != -1"><a :href="item.permalink_url" target="_blank">Facebook Permalink</a></span>
               <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.likes) ? item.likes.summary.total_count : 0 }} like</span>
-              <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.comments) ? item.comments.data.length : 0 }} comment</span>
+              <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.comments) ? item.comments.summary.total_count : 0 }} comment</span>
               <span class="count" v-if="feedFields.indexOf('count') != -1">{{ (item.shares) ? item.shares.count : 0 }} share</span>
               <span class="permalink" v-if="feedFields.indexOf('caption') != -1 && item.caption"> / <a :href="item.link" target="_blank">{{ item.caption }}</a></span>
             </div>
