@@ -62,9 +62,9 @@
         <ul class="list-box" v-if="feedList">
           <li v-for="item in feedList.data" class="list-item list-item-feed">
             <div v-if="feedInfo.skin !== 'text'">
-              <span class="type" v-if="feedFields.indexOf('type') != -1">{{ dateTime(item.created_time) }} {{ item.type }}.</span>
+              <span class="type" v-if="feedFields.indexOf('type') != -1">{{ item.type }}. {{ dateTime(item.created_time) }}</span>
               <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
-              <span class="name" v-if="feedFields.indexOf('name') != -1"><strong><a :href="item.link" target="_blank">{{ item.name }}</a></strong></span><br/>
+              <h3 class="name" v-if="feedFields.indexOf('name') != -1"><a :href="item.link" target="_blank">{{ item.name }}</a></h3>
               <img class="picture" v-if="feedFields.indexOf('picture') != -1" :src="item.picture">
               <div class="message" v-if="feedFields.indexOf('message') != -1" v-html="parseMessage(item.message)"></div>
               <span class="permalink" v-if="feedFields.indexOf('permalink') != -1" v-html="parseClickAnalytics(item.link)"></span>
