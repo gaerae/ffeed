@@ -65,14 +65,6 @@ new Vue({
       }).replace(/\n/g, '<br />')
     },
 
-    // parse a analytics string
-    parseClickAnalytics: function(url) {
-      const urlCheck = /(https:\/\/goo\.gl\/)/i;
-      if (urlCheck.test(url)) {
-        return `<a href="https://goo.gl/#analytics/${encodeURI(url.replace('https://', ''))}/all_time" target="_blank">Click Analytics</a> / `;
-      }
-    },
-
     // date format
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
     dateTime: function(dateString) {
