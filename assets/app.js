@@ -62,7 +62,7 @@ new Vue({
         return '<a href="'+url+'" target="_blank">'+url+'</a>'
       }).replace(hashPattern, function(hashtag){
         return `<a href="https://www.facebook.com/hashtag/${encodeURI(hashtag.replace('#', ''))}" target="_blank">${hashtag}</a>`;
-      })
+      }).replace(/\n/g, '<br />')
     },
 
     // parse a analytics string

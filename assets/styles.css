@@ -9,6 +9,7 @@
 body {
   font-family: Tahoma, Verdana, Segoe, sans-serif;
   font-size: 15px;
+  line-height: 1.8em;
   margin: 8px;
   padding: 0;
   color: #ABB2BF;
@@ -58,7 +59,6 @@ h1 {
   padding: 10px;
   border-bottom: 1px solid #2B313A;
   position: relative;
-  line-height: 20px;
   clear: left;
 }
 
@@ -76,6 +76,9 @@ h1 {
 
 .list-item .name a {
   color: #61AFEF;
+  font-size: 18px;
+  margin: 8px 0 8px 0;
+  font-weight: bold;
 }
 
 .list-item .message a, .note {
@@ -132,7 +135,6 @@ h1 {
   padding: 10px;
   border-bottom: 1px solid #6B737D;
   position: relative;
-  line-height: 20px;
   clear: left;
 }
 
