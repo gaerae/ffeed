@@ -59,8 +59,8 @@
           <a :href="feedInfo.link" target="_blank">{{ feedInfo.name }}</a>
           <span class="note"> {{ feedInfo.type }}</span>
         </h1>
-        <ul class="list-box" v-if="feedList">
-          <li v-for="item in feedList.data" class="list-item list-item-feed">
+        <div class="list-box" v-if="feedList">
+          <div v-for="item in feedList.data" class="list-item list-item-feed">
             <div v-if="feedInfo.skin !== 'text'">
               <span class="type" v-if="feedFields.indexOf('type') != -1">{{ item.type }}. {{ dateTime(item.created_time) }}</span>
               <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
@@ -77,8 +77,8 @@
               <!-- delimiter: &^& -->
               {{ item.created_time }}&^&{{ item.type }}&^&{{ item.message }}&^&{{ item.link }}&^&{{ item.name }}&^&{{ item.description }}&^&{{ item.picture }}&^&{{ item.permalink_url }}&^&{{ item.caption }}
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
 
         <ul class="list-box" v-else>
             <li class="list-item">No data.</li>
