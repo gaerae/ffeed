@@ -62,15 +62,7 @@ new Vue({
         return '<a href="'+url+'" target="_blank">'+url+'</a>'
       }).replace(hashPattern, function(hashtag){
         return `<a href="https://www.facebook.com/hashtag/${encodeURI(hashtag.replace('#', ''))}" target="_blank">${hashtag}</a>`;
-      })
-    },
-
-    // parse a analytics string
-    parseClickAnalytics: function(url) {
-      const urlCheck = /(https:\/\/goo\.gl\/)/i;
-      if (urlCheck.test(url)) {
-        return `<a href="https://goo.gl/#analytics/${encodeURI(url.replace('https://', ''))}/all_time" target="_blank">Click Analytics</a> / `;
-      }
+      }).replace(/\n/g, '<br />')
     },
 
     // date format
@@ -126,6 +118,7 @@ new Vue({
         ]},
         function (response) {
           if (response && !response.error) {
+            console.log(response);
             const tempPage = JSON.parse(response[0].body);
             const tempGroup = JSON.parse(response[1].body);
             const tempResult = [];
@@ -154,16 +147,9 @@ new Vue({
         {
           summary: true,
           metadata: 1,
-          fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,icon,caption}`
+          fields: `metadata.fields(type),name,id,picture{url},feed.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,description,icon,caption},posts.limit(${self.feedLimit}){attachments,likes.summary(true),comments.summary(true),shares,message,created_time,link,picture,full_picture,type,permalink_url,name,description,icon,caption}`
         },
         function (response) {
-          self.feedInfo = {
-            type: response.metadata.type,
-            id: response.id,
-            name: response.name,
-            link: `https://www.facebook.com/${response.id}`,
-            picture: response.picture.data.url
-          };
           if (response && !response.error) {
             if ((typeof response.posts === 'object') && (response.posts !== null)) {
               // page
@@ -171,11 +157,19 @@ new Vue({
             } else if ((typeof response.feed === 'object') && (response.feed !== null)) {
               // group
               self.feedList = response.feed;
-            } else {
-              return false;
             }
+
+            self.feedInfo = {
+                skin: self.skin,
+                type: response.metadata.type,
+                id: response.id,
+                name: response.name,
+                link: `https://www.facebook.com/${response.id}`,
+                picture: response.picture.data.url
+            };
             // total feed count
-            self.feedTotalCount = self.feedList.data.length + 1
+            self.feedTotalCount = self.feedList.data.length + 1;
+
           } else {
             self.feedList = null;
             self.mainMessage = 'No data.<br/>Error message: '+response.error.message;
@@ -186,7 +180,7 @@ new Vue({
     // infinite list
     apiInfiniteList: function() {
       const self = this;
-      if (self.feedList !== null) {
+      if (self.feedList !== null && self.feedList.paging.next) {
         FB.api(
           self.feedList.paging.next,
           function (response) {
@@ -197,7 +191,7 @@ new Vue({
                 self.feedTotalCount++;
               });
               self.feedList.data = Object.assign({}, self.feedList.data, tempData);
-              self.feedList.paging = Object.assign({}, self.feedList.paging, response.paging);
+              self.feedList.paging = response.paging;
               self.ticking = false;
             } else {
               self.mainMessage = 'No data.<br/>Error message: '+response.error.message;
