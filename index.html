@@ -66,9 +66,9 @@
                 <span class="type" v-if="feedFields.indexOf('type') != -1">{{ item.type }}. {{ dateTime(item.created_time) }}</span>
                 <img class="icon" v-if="feedFields.indexOf('icon') != -1" :src="item.icon">
                 <strong class="name" v-if="feedFields.indexOf('name') != -1"><a :href="item.link" target="_blank">{{ item.name }}</a></strong>
-                <div class="caption">Domain:
+                <div class="caption">domain.
                   <template v-if="feedFields.indexOf('caption') != -1 && item.caption"><a :href="item.link" target="_blank">{{ item.caption }}</a></template>
-                  <template v-else><a :href="item.permalink_url" target="_blank">fb.com/gaeraecom</a></template>
+                  <template v-else><a :href="item.permalink_url" target="_blank">facebook.com</a></template>
                 </div>
               </div>
               <div class="body">
