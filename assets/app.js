@@ -22,7 +22,7 @@ new Vue({
       console.error('assets/app.js > line 2: facebookAppId');
       return false
     }
-    FB.init({appId: facebookAppId, version: 'v3.0', status: true, cookie: true, xfbml: true});
+    FB.init({appId: facebookAppId, version: 'v8.0', status: true, cookie: true, xfbml: true});
     this.parseURL(window.location.search);
     this.apiCall('apiFeedInit');
     this.onInfiniteList();
